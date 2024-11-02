@@ -1,0 +1,30 @@
+-- Membuat schema
+CREATE SCHEMA SCON;
+
+CREATE TABLE SCON.Pengguna (
+    id INTEGER NOT NULL PRIMARY KEY,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(50) NOT NULL,
+    kontak VARCHAR(14) NOT NULL,
+    sosmed varchar(255)
+);
+
+CREATE TABLE SCON.Proyek (
+    id_proyek INTEGER NOT NULL PRIMARY KEY,
+    nama VARCHAR(255) NOT NULL,
+    deskripsi VARCHAR(500),
+    kategori VARCHAR(50),
+    anggaran DECIMAL(15, 2),
+    tanggal DATE DEFAULT CURRENT DATE,
+    id_pengguna INTEGER,
+    FOREIGN KEY (id_pengguna) REFERENCES SCON.Pengguna(id)
+);
+
+INSERT INTO SCON.Pengguna (id, email, username, password,kontak,sosmed) VALUES 
+(1, 'aaaaa@jimel.com', 'maaaa', '123','0822','instagram.com/a'),
+(2, 'bbbbb@jimel.com', 'bbbbb', '123','0823','instagram.com/b');
+
+INSERT INTO SCON.Proyek (id_proyek, nama, deskripsi, kategori, anggaran, id_pengguna) VALUES 
+(1, 'Proyek A', 'Deskripsi Proyek A', 'SDG 1', 10000.00, 1),
+(2, 'Proyek B', 'Deskripsi Proyek B', 'SDG 2', 20000.00, 2);
