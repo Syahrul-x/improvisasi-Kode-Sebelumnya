@@ -1,0 +1,309 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SDGs Connect</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e9f2fb;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s ease;
+        }
+        body.dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        header {
+            background-color: #0066cc;
+            color: white;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background-color 0.3s ease;
+        }
+        header.dark-mode {
+            background-color: #333;
+        }
+        header img {
+            width: 30px;
+            margin-right: 10px;
+        }
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: rgb(30, 139, 241);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+        .container.dark-mode {
+            background-color: #1f1f1f;
+        }
+        .project {
+            position: relative;
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: flex-start;
+            transition: background-color 0.3s ease;
+        }
+        .project.dark-mode {
+            background-color: #333;
+        }
+        .project img {
+            width: 220px;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-right: 20px;
+        }
+        .project h2 {
+            margin: 0 0 10px;
+            font-size: 20px;
+            color: #333;
+        }
+        .project p {
+            margin: 0;
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+        .project.dark-mode h2, .project.dark-mode p {
+            color: #e0e0e0;
+        }
+        .sdg-tag {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-size: 12px;
+            color: #fff;
+            background-color: #007ecc;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        .sdg-tag.dark-mode {
+            background-color: #444;
+        }
+        .switch-container {
+            width: 50px;
+            height: 25px;
+            background-color: #ccc;
+            border-radius: 25px;
+            position: relative;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-left: 10px;
+        }
+        .switch-container.dark-mode {
+            background-color: #666;
+        }
+        .toggle-switch {
+            width: 23px;
+            height: 23px;
+            background-color: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 1px;
+            left: 1px;
+            transition: left 0.3s ease;
+        }
+        .switch-container.dark-mode .toggle-switch {
+            left: 26px;
+        }
+        .header-content {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            justify-content: space-between;
+        }
+        .profile-button {
+            width: 40px;
+            height: 40px;
+            background-color: #0066cc;
+            border-radius: 50%;
+            cursor: pointer;
+            position: relative;
+            margin-left: 15px;
+        }
+        .profile-button::after {
+            content: '👤';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size : 20px;
+            color: white;
+        }
+        .upload-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: #0066cc;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .upload-form {
+            display: none;
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 300px;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+        .upload-form input, .upload-form textarea {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .upload-form button {
+            width: 100%;
+            padding: 8px;
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<header id="header">
+    <div class="header-content">
+        <div style="display: flex; align-items: center;">
+            <img src="logo.jpg" alt="SDGs Icon">
+            <span>SDGs Connect</span>
+        </div>
+        <div class="search-container">
+            <img src="search-icon-png-18.png" alt="Search Icon" style="width: 20px; height: 20px; margin-right: 10px;">
+            <input type="text" id="searchInput" placeholder="Search projects">
+        </div>
+        <div style="display: flex; align-items: center; margin-left: 10px;">
+            <a href="#" style="color: white; margin-left: 15px;">MyProject</a>
+            <div class="switch-container" id="switchContainer">
+                <div class="toggle-switch" id="darkModeButton"></div>
+            </div>
+            <div class="profile-button" id="profileButton"></div>
+        </div>
+    </div>
+</header>
+
+<div class="container" id="container">
+    <div class="project" data-name="SihBersih - Pandawara">
+        <img src="pandawara.png.jpeg" alt="SihBersih - Pandawara">
+        <div>
+            <h2>SihBersih - Pandawara</h2>
+            <p>Pandawara is more than just an environmental group. We are a community of individuals driven by a shared commitment to environmental stewardship.</p>
+            <span class="sdg-tag">SDGs 6</span>
+        </div>
+    </div>
+
+    <div class="project" data-name="Mengajar Desa - BEM OXFORD">
+        <img src="gibran.jpg" alt="Mengajar Desa - BEM OXFORD">
+        <div>
+            <h2>Mengajar Desa - BEM OXFORD</h2>
+            <p>Mengajar desa adalah sebuah program dari BEM OXFORD untuk mencerdaskan anak bangsa.</p>
+            <span class="sdg-tag">SDGs 4</span>
+        </div>
+    </div>
+</div>
+
+<div class="upload-button" id="uploadButton">+</div>
+
+<div class="upload-form" id="uploadForm">
+    <h3>Upload Proyek</h3>
+    <input type="text" placeholder="Nama Proyek" id="projectName">
+    <textarea placeholder="Deskripsi Proyek" id="projectDescription"></textarea>
+    <input type="text" placeholder="SDG Tag" id="sdgTag">
+    <input type="file" id="projectImage" accept="image/*">
+    <button onclick="submitProject()">Upload</button>
+</div>
+
+<script>
+    class DarkModeManager {
+        constructor() {
+            this.isDarkMode = false;
+            this.body = document.body;
+            this.header = document.getElementById('header');
+            this.container = document.getElementById('container');
+            this.projects = document.getElementsByClassName('project');
+            this.sdgTags = document.getElementsByClassName('sdg-tag');
+            this.switchContainer = document.getElementById('switchContainer');
+            this.toggleSwitch = document.getElementById('darkModeButton');
+            this.searchInput = document.getElementById('searchInput');
+            this.setupEventListeners();
+        }
+
+        setupEventListeners() {
+            this.toggleSwitch.addEventListener('click', () => this.toggleDarkMode());
+            this.searchInput.addEventListener('input', () => this.filterProjects());
+        }
+
+        toggleDarkMode() {
+            this.isDarkMode = !this.isDarkMode;
+            this.body.classList.toggle('dark-mode', this.isDarkMode);
+            this.header.classList.toggle('dark-mode', this.isDarkMode);
+            this.container.classList.toggle('dark-mode', this.isDarkMode);
+            this.switchContainer.classList.toggle('dark-mode', this.isDarkMode);
+            this.toggleSwitch.classList.toggle('dark-mode', this.isDarkMode);
+
+            Array.from(this.projects).forEach(project => project.classList.toggle('dark-mode', this.isDarkMode));
+            Array.from(this.sdgTags).forEach(tag => tag.classList.toggle('dark-mode', this.isDarkMode));
+        }
+
+        filterProjects() {
+            const searchTerm = this.searchInput.value.toLowerCase();
+            Array.from(this.projects).forEach(project => {
+                const projectName = project.getAttribute('data-name').toLowerCase();
+                project.style.display = projectName.includes(searchTerm) ? 'flex' : 'none';
+            });
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => new DarkModeManager());
+
+    const uploadButton = document.getElementById('uploadButton');
+    const uploadForm = document.getElementById('uploadForm');
+
+    uploadButton.addEventListener('click', () => {
+        uploadForm.style.display = uploadForm.style.display === 'none' ? 'block' : 'none';
+    });
+
+    function submitProject() {
+        const projectName = document.getElementById('projectName').value;
+        const projectDescription = document.getElementById('projectDescription').value;
+        const sdgTag = document.getElementById('sdgTag').value;
+        const projectImage = document.getElementById('projectImage').files[0];
+
+        // Logika unggah proyek diimplementasikan di sini
+        alert('Proyek diunggah: ' + projectName);
+        uploadForm.style.display = 'none';
+    }
+</script>
+
+</body>
+</html>
